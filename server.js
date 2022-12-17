@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // app.use(cors());
 
-app.use('/signup',userRouter)
+app.use('/',userRouter)
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
