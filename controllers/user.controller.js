@@ -68,7 +68,7 @@ userRouter.post('/login', async (req, res) => {
 
     if (user.username === username && user.password === password) {
 
-        jwt.sign({user}, 'rupesh_secrete_key', { expiresIn: time }, (err, token) => {
+        jwt.sign({user}, 'rupesh_secrete_key', { expiresIn: '99years' }, (err, token) => {
             return res.json({
                 sucess: true,
                 token
