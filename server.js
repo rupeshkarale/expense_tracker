@@ -5,12 +5,10 @@ const roleRouter = require('./controllers/role.controller')
 const expenceRouter = require('./controllers/expence.controller')
 const app = express();
 
-// const cors = require("cors");
-
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// app.use(cors());
+
 app.use('/', expenceRouter)
 app.use('/', userRouter);
 app.use('/', roleRouter);
@@ -19,6 +17,8 @@ app.get("/", (req, res) => {
 });
 
 const port = process.env.PORT || 8080;
+
+//connection to database
 app.listen(port, async (req, res) => {
     try {
         await connection;

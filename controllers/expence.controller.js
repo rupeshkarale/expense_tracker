@@ -5,8 +5,12 @@ const jwt = require("jsonwebtoken");
 var moment = require('moment')
 const expenceRouter = express.Router();
 
+//post request for create expense in user
 expenceRouter.post('/expense', verifyToken, (req, res) => {
+    
     const { title, amount, date } = req.body;
+    //check date, title, amount are valid or not
+
     if (!dateIsValid(date)) {
         return res.send({
             success: false,
@@ -25,6 +29,7 @@ expenceRouter.post('/expense', verifyToken, (req, res) => {
             message: "Amount must be between 1 to 1000"
         })
     }
+
     jwt.verify(req.token, 'rupesh_secrete_key', async (err, authData) => {
         if (err) {
             return res.send({
@@ -35,7 +40,7 @@ expenceRouter.post('/expense', verifyToken, (req, res) => {
         if (authData) {
             const { username, password } = authData.user
             const exist = await User.exists({ username, password })
-            // console.log(exist);
+
             if (exist === null) {
                 return res.send({
                     success: false,
@@ -45,13 +50,13 @@ expenceRouter.post('/expense', verifyToken, (req, res) => {
             }
 
             const user = await User.findOne({ username });
+
+            //create expences query
             const data = await User.findByIdAndUpdate(
                 { _id: user._id },
                 { $push: { expences: req.body } }
             )
-            //  user.expences = [...user.expences, req.body]
-            // user.expences(req.body)
-            // const data = await user.expences.save();
+            
             return res.send({
                 "status": true,
                 "message": `Expense with ${data._id} created successfully`
@@ -61,7 +66,7 @@ expenceRouter.post('/expense', verifyToken, (req, res) => {
     })
 })
 
-
+//function for date validation
 function dateIsValid(dateStr) {
     const regex = /^\d{2}\/\d{2}\/\d{4}$/;
 

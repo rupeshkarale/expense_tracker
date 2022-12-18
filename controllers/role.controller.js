@@ -2,6 +2,7 @@ const express = require("express");
 const Role = require("../models/role.model");
 const roleRouter = express.Router();
 
+// insert role
 roleRouter.post('/role', async (req, res) => {
     const role = Role(req.body);
     await role.save();
@@ -11,6 +12,7 @@ roleRouter.post('/role', async (req, res) => {
     }).status(201);
 })
 
+// check role validation
 roleRouter.post('/role', async (req, res) => {
     const { name } = req.body;
     const exist = await Role.exists({ name: name })
