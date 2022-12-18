@@ -6,7 +6,7 @@ const dbPassword = process.env.DB_PASSWORD;
 
 const connection = mongoose.connect(
 
-  `mongodb+srv://expenseTracker:${dbPassword}@cluster0.yzilnkf.mongodb.net/?retryWrites=true&w=majority`
+  `mongodb+srv://${dbID}:${dbPassword}@cluster0.yzilnkf.mongodb.net/?retryWrites=true&w=majority`
 
   //use below link if you want run on localhost
   // "mongodb://127.0.0.1:27017/expensesTracker"
