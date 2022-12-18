@@ -12,7 +12,7 @@ roleRouter.post('/role', async (req, res, next) => {
             "message": `Role ${name} is invalid`
         })
     }
-
+console.log(exist)
     if (exist) {
         return res.send({
             "success": false,
