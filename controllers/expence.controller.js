@@ -7,7 +7,7 @@ const expenceRouter = express.Router();
 
 //post request for create expense in user
 expenceRouter.post('/expense', verifyToken, (req, res) => {
-    
+
     const { title, amount, date } = req.body;
     //check date, title, amount are valid or not
 
@@ -56,7 +56,7 @@ expenceRouter.post('/expense', verifyToken, (req, res) => {
                 { _id: user._id },
                 { $push: { expences: req.body } }
             )
-            
+
             return res.send({
                 "status": true,
                 "message": `Expense with ${data._id} created successfully`
@@ -118,7 +118,7 @@ expenceRouter.get('/expence/summery', verifyToken, async (req, res) => {
         if (authData) {
             const { username, password } = authData.user
             const exist = await User.exists({ username, password })
-            // console.log(exist);
+
             if (exist === null) {
                 return res.send({
                     success: false,
@@ -132,17 +132,16 @@ expenceRouter.get('/expence/summery', verifyToken, async (req, res) => {
 
             if (role.name === 'user') {
                 const data = await User.findOne({ username }, { expences: 1 })
-                // console.log(data);
+
                 const totalExpence = [0, 0, 0, 0, 0, 0, 0]
                 data.expences.forEach((ele) => {
-                    // console.log(typeof ele.date );
+
                     var dt = moment(ele.date, ["DD-MM-YYYY", "YYYY-MM-DD"])
                     const date = new Date(dt);
                     const day = date.getDay()
-                    console.log(day)
+
                     totalExpence[day] += ele.amount;
-                    // var dt = ele.date.getDay()
-                    // console.log(dt)
+
                 })
                 res.send({
                     1: totalExpence[0],
@@ -156,7 +155,7 @@ expenceRouter.get('/expence/summery', verifyToken, async (req, res) => {
             }
             else {
                 const data = await User.find()
-                // console.log(data)
+
                 const output = {}
                 data.forEach((ele) => {
                     const totalExpence = [0, 0, 0, 0, 0, 0, 0]
@@ -164,7 +163,7 @@ expenceRouter.get('/expence/summery', verifyToken, async (req, res) => {
                         var dt = moment(ele.date, ["DD-MM-YYYY", "YYYY-MM-DD"])
                         const date = new Date(dt);
                         const day = date.getDay()
-                        // console.log(day)
+
                         totalExpence[day] += ele.amount;
                     })
                     var namenew = JSON.stringify(ele.username)
@@ -180,7 +179,7 @@ expenceRouter.get('/expence/summery', verifyToken, async (req, res) => {
                         7: totalExpence[6],
                     }
                     output[ele.username] = obj;
-                    // output.push(namenew)
+                    
                 })
                 return res.send(
                     output
