@@ -8,7 +8,8 @@ userRouter.post('/signup', async (req, res, next) => {
     try {
         const { username, password } = req.body
 
-        if (username.length < 3 || username.length > 10) {
+
+        if (username.length < 3 || username.length > 10 || username ===null ) {
             res.send({
                 sucess: false,
                 message: 'username must be more than 3 and less than 10 character'
