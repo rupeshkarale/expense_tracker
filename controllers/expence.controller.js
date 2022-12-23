@@ -128,9 +128,11 @@ expenceRouter.get('/expence/summery', verifyToken, async (req, res) => {
             }
 
             const roleid = await User.findOne({ username }, { role_id: 1 })
+            
             const role = await Role.find({ _id: roleid.role_id })
+            // console.log(role[0])
 
-            if (role.name === 'user') {
+            if (role[0].name === 'user') {
                 const data = await User.findOne({ username }, { expences: 1 })
 
                 const totalExpence = [0, 0, 0, 0, 0, 0, 0]
@@ -154,7 +156,9 @@ expenceRouter.get('/expence/summery', verifyToken, async (req, res) => {
                 })
             }
             else {
-                const data = await User.find()
+                const role_id = await Role.find({ name: 'user' });
+                console.log(role_id);
+                 const data = await User.find({role_id})
 
                 const output = {}
                 data.forEach((ele) => {
